@@ -23,7 +23,7 @@ In `/home/ubuntu/.local/share/better-ccflare/app` on AgentOS:
 1. `git fetch origin && git fetch fork`, then fast-forward the fork's `main` (above).
 2. Rebuild `agentos/deploy`: branch it from `origin/main` and `git merge --no-ff` each pending branch that upstream has not merged yet. If none are left, `agentos/deploy` equals `main`.
 3. Back up `~/.config/better-ccflare/better-ccflare.db` and `apps/cli/dist/better-ccflare`.
-4. Build with the pinned bun (`packageManager`, currently 1.4.4): `bun install --frozen-lockfile && bun run build`.
+4. Build with the pinned bun (`packageManager`, currently 1.4.4), marking the build as a fork build: `bun install --frozen-lockfile && CCFLARE_BUILD_SUFFIX=agentos.$(git rev-parse --short HEAD) bun run build`. `better-ccflare --version` then prints `<version>+agentos.<sha>`.
 5. `systemctl --user restart better-ccflare`, then check `journalctl --user -u better-ccflare` and one request.
 6. Push the result: `git push fork local/deploy:refs/heads/agentos/deploy`.
 
